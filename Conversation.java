@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Random;
 
 class Conversation {
   //be able to tell if we should reapond with a question
@@ -12,15 +11,39 @@ class Conversation {
     System.out.println("how many rounds?");
     int rounds;
     rounds=sc.nextInt();
+    //make the transcript
+    String[] transcript = new String[rounds*2+8];
+    int transcriptNum=0;
+    transcript[transcriptNum]="how many rounds?";
+    transcriptNum++;
+    transcript[transcriptNum]=Integer.toString(rounds);
 
     //start the convo
-    for (int i=0;i<rounds;i++){
+    for (int i=0;i<rounds+1;i++){
       //listen and respond
       String statement=sc.nextLine();
-      System.out.println(respond(statement));
+      String reply=respond(statement);
+      System.out.println(reply);
+
+      //add to transcript
+      if (i>0){
+        transcriptNum++;
+        transcript[transcriptNum]=statement;
+      }
+      transcriptNum++;
+      transcript[transcriptNum]=reply;
     }
     //finish the convo
     System.out.println("We're done here");
+    transcriptNum++;
+    transcript[transcriptNum]="We're done here";
+    
+    //print transcript
+    System.out.println("-----TRANSCRIPT-----");
+    for (int i=0; i<transcriptNum+1;i++){
+      System.out.println(transcript[i]);
+    }
+    System.out.println("-----END TRANSCRIPT-----");
   }
   //replace pronouns from list
   public static String replacePronouns(String statement, String target, String replacement){
@@ -54,9 +77,10 @@ class Conversation {
       return response +"?";
     }else{
       //respond with random reply
-      String[] replies = {"ok...", "huh", "cool, yeah..."};
-      //randReply=
-      return "ok...whatever";
+      String[] replies = {"ok...", "huh", "cool, yeah...", "wow"};
+      String randReply=replies[(int)(Math.random()*4)];
+
+      return randReply;
     }
   }
   
